@@ -16,7 +16,7 @@ const page = () => {
   const [password, setPassword] = useState("");
 
   const {push} = useRouter()
-  
+
   const singIn = async ()=>{
     try {
       const response = await axios.post(process.env.NEXT_PUBLIC_API_URL+'/user/sigin',{
@@ -44,8 +44,8 @@ const page = () => {
 
   return (
     <>
-      <div className="flex flex-col h-[90vh] items-center content-between justify-between py-20 px-8">
-        <div className="max-h-96">
+      <div className="flex flex-col h-[90vh] items-center content-between justify-between py-8 px-8 max-w-md">
+        <div className="max-h-72">
           <Lottie animationData={animationData} style={{ height: 300 }} />
         </div>
         <div className="w-full">
