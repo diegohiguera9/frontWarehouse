@@ -2,6 +2,7 @@
 
 import Lottie from "lottie-react";
 import animationData from "../public/assets/147825-icon-morphing.json";
+import ghostData from "../public/assets/148188-a-ghost.json"
 import LoginBox from "./_components/loginBox";
 import MailSvg from "./_svg/mailSvg";
 import PasswordSvg from "./_svg/passwordSvg";
@@ -14,16 +15,22 @@ import { useRouter  } from "next/navigation";
 const page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const {push} = useRouter()
 
+  const resetWindowScrollPosition = ()=>{
+    window.history.scrollRestoration = 'manual'
+  }
+
   const singIn = async ()=>{
+    resetWindowScrollPosition()
+    setLoading(true)
     try {
       const response = await axios.post(process.env.NEXT_PUBLIC_API_URL+'/user/sigin',{
         email,
         password
       })
-      console.log(response)
       //how to get the token
       const token = response.data.token
       await fetch("/api/login",{
@@ -33,18 +40,26 @@ const page = () => {
         },
         body: JSON.stringify({token:token})
       })
-
       push("/diego")
     } catch (err) {
+      setLoading(false)
       setEmail("")
       setPassword("")
       alert(err)
-    }
+    } 
+  }
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center content-between justify-between h-screen-safe px-4 max-w-md">
+        <Lottie animationData={ghostData}/>
+      </div>
+    )
   }
 
   return (
     <>
-      <div className="flex flex-col h-[90vh] items-center content-between justify-between py-8 px-8 max-w-md">
+      <div className="flex flex-col h-[100vh] items-center content-between justify-between max-w-md h-screen-safe px-4 py-1">
         <div className="max-h-72">
           <Lottie animationData={animationData} style={{ height: 300 }} />
         </div>
@@ -76,7 +91,7 @@ const page = () => {
             Password
           </LoginBox>
         </div>
-        <button className="flex flex-row-reverse w-full" onClick={singIn}>
+        <button className="flex flex-row-reverse w-full focus:shadow-none" onClick={singIn}>
           <ButtonSvg Icon={ArrowRightSvg}>Log In</ButtonSvg>
         </button>
         {/* <div className="object-bottom flex flex-row w-full mt-4 space-x-2 justify-center">

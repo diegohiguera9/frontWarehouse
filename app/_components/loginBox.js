@@ -33,6 +33,7 @@ export default function LoginBox({
             onBlur={() => setFocus(false)}
             onChange={(e) => setState(e.target.value)}
             value={value}
+            autoCapitalize="off"
           />
         </div>
       </div>
