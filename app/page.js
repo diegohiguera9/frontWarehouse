@@ -16,10 +16,10 @@ const page = () => {
   const [password, setPassword] = useState("");
 
   const {push} = useRouter()
-
+  
   const singIn = async ()=>{
     try {
-      const response = await axios.post('http://192.168.0.10:8080'+'/user/sigin',{
+      const response = await axios.post(process.env.NEXT_PUBLIC_API_URL+'/user/sigin',{
         email,
         password
       })
